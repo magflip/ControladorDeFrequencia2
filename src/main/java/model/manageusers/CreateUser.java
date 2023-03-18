@@ -1,11 +1,5 @@
 package model.manageusers;
 
-import java.sql.SQLException;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-
 import model.DAOusers;
 import model.Users;
 
@@ -15,7 +9,12 @@ public class CreateUser {
 
 		DAOusers dao = new DAOusers();
 		Users user = new Users(name, password);
-		user.convertStringToPermission(permission);
+		try {
+			user.convertStringToPermission(permission);
+		} catch (Exception e) {
+			System.out.println("A permissão informada não existe.");
+		}
+		
 		dao.createUserAtomic(user);
 	}
 

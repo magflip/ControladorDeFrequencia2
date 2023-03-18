@@ -5,14 +5,13 @@ import view.Menu;
 
 import java.util.Scanner;
 
-import controller.CheckUserNPsw;
 import model.Users;
 import model.Users.PermissionType;
+import model.manageusers.ConsultUser;
 import model.manageusers.CreateUser;
 
 public class ChooseMenuItem {
 
-	@SuppressWarnings("unlikely-arg-type")
 	public ChooseMenuItem() {
 
 //		System.out.println("1 - Gerenciar usuários");
@@ -60,6 +59,47 @@ public class ChooseMenuItem {
 					String uPerm = sc.next();
 
 					new CreateUser(uName, uPsw, uPerm);
+
+					System.out.println("Usuário criado com sucesso!");
+				}
+
+				if (option == 2) {
+
+					System.out.println("1 - Consultar por nome\n2 - Consultar por ID");
+					int nameOrId = sc.nextInt();
+
+					if (nameOrId == 1) {
+
+						System.out.println("Informe o nome do usuário a ser consultado:");
+						String uName = sc.next();
+
+						ConsultUser readUser = new ConsultUser();
+						try {
+							Users returnedUser = readUser.ConsultUserByName(uName);
+							System.out.println("Os dados do usuário consultado são:\n" + returnedUser.toString());
+
+						} catch (Exception e) {
+							System.out.println("Usuário não encontrado!");
+
+						}
+
+					}
+
+					if (nameOrId == 2) {
+
+						System.out.println("Informe o ID do usuário a ser consultado:");
+						long uID = sc.nextLong();
+
+						ConsultUser readUser = new ConsultUser();
+						try {
+							Users returnedUser = readUser.ConsultUserByID(uID);
+							System.out.println("Os dados do usuário consultado são:\n" + returnedUser.toString());
+
+						} catch (Exception e) {
+							System.out.println("Usuário não encontrado!");
+						}
+
+					}
 				}
 
 			}

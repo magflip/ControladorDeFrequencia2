@@ -106,6 +106,12 @@ public class Users {
 		Users other = (Users) obj;
 		return Objects.equals(name, other.name) && Objects.equals(psw, other.psw);
 	}
+
+
+	@Override
+	public String toString() {
+		return "User:\nid=" + id + "\nname=" + name + "\npsw=" + psw + "\npermission=" + permission + "";
+	}
 	
 	
 	
