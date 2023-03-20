@@ -75,5 +75,16 @@ public class DAOusers {
 		return user;
 
 	}
+	
+	public void updateUserAtomic(Users u) {
+		openDAO();
+
+		this.em.getTransaction().begin();
+		this.em.merge(u);
+		this.em.getTransaction().commit();
+
+		closeDAO();
+
+	}
 
 }

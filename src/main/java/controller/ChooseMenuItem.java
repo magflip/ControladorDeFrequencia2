@@ -3,6 +3,7 @@ package controller;
 import view.Login;
 import view.Menus;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -10,10 +11,13 @@ import model.Users;
 import model.Users.PermissionType;
 import model.manageusers.ConsultUser;
 import model.manageusers.CreateUser;
+import model.manageusers.UpdateUser;
 
 public class ChooseMenuItem {
 
-	public ChooseMenuItem() {
+	public ChooseMenuItem() throws IOException {
+		
+		final String ESC = "\033[";
 
 //		System.out.println("1 - Gerenciar usuários");
 //		System.out.println("2 - Registrar marcação");
@@ -27,11 +31,12 @@ public class ChooseMenuItem {
 //		}
 
 		int pickedOption = Menus.mainMenu();
-
+		System.out.print(ESC + "2J"); 
 		new Login();
+		System.out.print(ESC + "2J"); 
 		CheckUserNPsw checklogin = new CheckUserNPsw();
 		Users u = checklogin.testkUserNPsw();
-
+		System.out.print(ESC + "2J"); 
 		switch (pickedOption) {
 		case 1: {
 			if (u.getPermission().equals(PermissionType.ADMIN)) {
@@ -59,6 +64,26 @@ public class ChooseMenuItem {
 					} catch (Exception e) {
 						Users returnedUser = readUser.ConsultUserByName(nameOrId);
 						System.out.println("Os dados do usuário consultado são:\n" + returnedUser.toString());
+
+					}
+
+				}
+
+				if (option == 3) { // alterar usuario
+
+					String nameOrId = Menus.readUserby();
+					ConsultUser readUser = new ConsultUser();
+					Users updatedUser = Menus.updateUserInputs();
+
+					try {
+
+						long id = Long.parseLong(nameOrId);
+						Users returnedUser = readUser.ConsultUserByID(id);
+						new UpdateUser(returnedUser, updatedUser);
+						
+					} catch (Exception e) {
+						Users returnedUser = readUser.ConsultUserByName(nameOrId);
+						new UpdateUser(returnedUser, updatedUser);
 
 					}
 

@@ -68,20 +68,22 @@ public class Menus {
 	static public String readUserby() {
 		Scanner sc = new Scanner(System.in);
 
-		String byName = "Informe o nome do usuário a ser consultado:";
-		String byID = "Informe o ID do usuário a ser consultado:";
+		String byName = "Informe o nome do usuário:";
+		String byID = "Informe o ID do usuário:";
 
-		System.out.println("1 - Consultar por nome\n2 - Consultar por ID");
+		System.out.println("1 - Por nome\n2 - Por ID");
 
-		int opt = sc.nextInt();
-		//sc.next();
+		String opt = sc.nextLine();
+//		if (sc.hasNextLine()) {
+//			sc.next();
+//		} 
 
-		if (opt == 1) {
+		if (opt.equals("1")) {
 			System.out.println(byName);
-			String name = sc.next();
+			String name = sc.nextLine();
 			return name;
 		}
-		if (opt == 2) {
+		if (opt.equals("2")) {
 			System.out.println(byID);
 			String id = sc.next();
 			return id;
@@ -92,4 +94,37 @@ public class Menus {
 		return null;
 
 	}
+
+	static public Users updateUserInputs() {
+
+		Scanner sc = new Scanner(System.in);
+
+		System.out.println("Informe o novo nome do usuário: (pressione \"enter\" para manter o atual)");
+		String nName = sc.nextLine();
+
+		System.out.println("Informe a nova senha do usuário: (pressione \"enter\" para manter a atual)");
+		String nPsw = sc.nextLine();
+
+		System.out.println("Informe a nova permissão do usuário: (pressione \"enter\" para manter a atual)");
+
+		String nPermission;
+		if (sc.hasNextLine()) {
+			nPermission = sc.nextLine();
+		} else {
+			nPermission = "";
+
+		}
+
+		Users updatedUser = new Users(nName, nPsw);
+		try {
+			updatedUser.convertStringToPermission(nPermission);
+			return updatedUser;
+
+		} catch (Exception e) {
+			System.out.println("A permissão informada não existe.");
+			return null;
+		}
+
+	}
+
 }
