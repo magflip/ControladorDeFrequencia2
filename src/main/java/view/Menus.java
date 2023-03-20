@@ -1,5 +1,6 @@
 package view;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -50,7 +51,7 @@ public class Menus {
 	static public List<String> createUserInputs() {
 
 		Scanner sc = new Scanner(System.in);
-		List<String> userData = null;
+		List<String> userData = new ArrayList();
 
 		System.out.println("Informe o nome do usuário:");
 		userData.add(sc.next());
@@ -125,6 +126,25 @@ public class Menus {
 			return null;
 		}
 
+	}
+	
+	static public int attendanceRecordMenu() {
+
+		Scanner sc = new Scanner(System.in);
+
+		StringBuilder menuAttendanceRecord = new StringBuilder();
+		menuAttendanceRecord.append("Informe a opção: ");
+		menuAttendanceRecord.append("\n1 - Incluir registro próprio");
+		menuAttendanceRecord.append("\n2 - Incluir registro para outro usuário");
+
+
+		System.out.println(menuAttendanceRecord);
+
+		int opt = sc.nextInt();
+
+//		sc.close();
+
+		return opt;
 	}
 
 }

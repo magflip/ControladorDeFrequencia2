@@ -86,5 +86,17 @@ public class DAOusers {
 		closeDAO();
 
 	}
+	
+	public void DeleteUser(long id) {
+		openDAO();
+
+		this.em.getTransaction().begin();
+		Users userToDelete = this.em.find(Users.class, id);
+		this.em.remove(userToDelete);
+		this.em.getTransaction().commit();
+
+		closeDAO();
+
+	}
 
 }
