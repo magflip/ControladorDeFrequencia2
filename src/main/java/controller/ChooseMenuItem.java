@@ -1,8 +1,9 @@
 package controller;
 
 import view.Login;
-import view.Menu;
+import view.Menus;
 
+import java.util.List;
 import java.util.Scanner;
 
 import model.Users;
@@ -25,7 +26,7 @@ public class ChooseMenuItem {
 //			USER
 //		}
 
-		int pickedOption = Menu.PrintMenu();
+		int pickedOption = Menus.mainMenu();
 
 		new Login();
 		CheckUserNPsw checklogin = new CheckUserNPsw();
@@ -34,72 +35,33 @@ public class ChooseMenuItem {
 		switch (pickedOption) {
 		case 1: {
 			if (u.getPermission().equals(PermissionType.ADMIN)) {
-				StringBuilder menuUserManager = new StringBuilder();
-				menuUserManager.append("Informe a opção: ");
-				menuUserManager.append("\n1 - Criar usuário");
-				menuUserManager.append("\n2 - Consultar usuário(s) ");
-				menuUserManager.append("\n3 - Alterar usuário");
-				menuUserManager.append("\n4 - Apagar usuário");
+				int option = Menus.userManagerMenu();
 
-				System.out.println(menuUserManager);
+				if (option == 1) { // criar usuário
 
-				Scanner sc = new Scanner(System.in);
-				int option = sc.nextInt();
-//				sc.next();
+					List<String> userData = Menus.createUserInputs();
 
-				if (option == 1) {
-
-					System.out.println("Informe o nome do usuário:");
-					String uName = sc.next();
-
-					System.out.println("Informe a senha do usuário:");
-					String uPsw = sc.next();
-
-					System.out.println("Informe a permissão do usuário:");
-					String uPerm = sc.next();
-
-					new CreateUser(uName, uPsw, uPerm);
+					new CreateUser(userData.get(0), userData.get(1), userData.get(2));
 
 					System.out.println("Usuário criado com sucesso!");
 				}
 
-				if (option == 2) {
+				if (option == 2) { // consultar usuário
 
-					System.out.println("1 - Consultar por nome\n2 - Consultar por ID");
-					int nameOrId = sc.nextInt();
+					String nameOrId = Menus.readUserby();
+					ConsultUser readUser = new ConsultUser();
 
-					if (nameOrId == 1) {
+					try {
 
-						System.out.println("Informe o nome do usuário a ser consultado:");
-						String uName = sc.next();
-
-						ConsultUser readUser = new ConsultUser();
-						try {
-							Users returnedUser = readUser.ConsultUserByName(uName);
-							System.out.println("Os dados do usuário consultado são:\n" + returnedUser.toString());
-
-						} catch (Exception e) {
-							System.out.println("Usuário não encontrado!");
-
-						}
+						long id = Long.parseLong(nameOrId);
+						Users returnedUser = readUser.ConsultUserByID(id);
+						System.out.println("Os dados do usuário consultado são:\n" + returnedUser.toString());
+					} catch (Exception e) {
+						Users returnedUser = readUser.ConsultUserByName(nameOrId);
+						System.out.println("Os dados do usuário consultado são:\n" + returnedUser.toString());
 
 					}
 
-					if (nameOrId == 2) {
-
-						System.out.println("Informe o ID do usuário a ser consultado:");
-						long uID = sc.nextLong();
-
-						ConsultUser readUser = new ConsultUser();
-						try {
-							Users returnedUser = readUser.ConsultUserByID(uID);
-							System.out.println("Os dados do usuário consultado são:\n" + returnedUser.toString());
-
-						} catch (Exception e) {
-							System.out.println("Usuário não encontrado!");
-						}
-
-					}
 				}
 
 			}
