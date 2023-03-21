@@ -8,6 +8,7 @@
         
         
         <class>model.Users</class>
+        <class>model.Entry</class>
         
         <properties>
             <property name="javax.persistence.jdbc.driver"  value="com.mysql.cj.jdbc.Driver"/>

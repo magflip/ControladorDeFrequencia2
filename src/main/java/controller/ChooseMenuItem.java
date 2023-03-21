@@ -4,11 +4,14 @@ import view.Login;
 import view.Menus;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
+import model.Entry;
 import model.Users;
 import model.Users.PermissionType;
+import model.manageentries.CreateEntry;
 import model.manageusers.ConsultUser;
 import model.manageusers.CreateUser;
 import model.manageusers.DeleteUser;
@@ -121,33 +124,36 @@ public class ChooseMenuItem {
 
 		case 2: {
 			if (u.getPermission().equals(PermissionType.MANAGER) || u.getPermission().equals(PermissionType.USER)) {
+
 				int option = Menus.attendanceRecordMenu();
 
 				if (option == 1) { // registrar própria marcação
 
-					List<String> userData = Menus.createUserInputs();
+					CreateEntry nEntry = new CreateEntry(u, new Date());
 
-					new CreateUser(userData.get(0), userData.get(1), userData.get(2));
-
-					System.out.println("Usuário criado com sucesso!");
+					System.out.println("Marcação efetuada com sucesso!");
 				}
 
 				if (option == 2) { // registrar marcação para outro usuario
 
-					String nameOrId = Menus.readUserby();
-					ConsultUser readUser = new ConsultUser();
+					if (u.getPermission().equals(PermissionType.USER)) {
+						System.out.println("O usuário não possui permissão para incluir marcações para terceiros.");
+						return;
+					} else {
+						String nameOrId = Menus.readUserby();
+						ConsultUser readUser = new ConsultUser();
 
-					try {
+						try {
 
-						long id = Long.parseLong(nameOrId);
-						Users returnedUser = readUser.ConsultUserByID(id);
-						System.out.println("Os dados do usuário consultado são:\n" + returnedUser.toString());
-					} catch (Exception e) {
-						Users returnedUser = readUser.ConsultUserByName(nameOrId);
-						System.out.println("Os dados do usuário consultado são:\n" + returnedUser.toString());
+							long id = Long.parseLong(nameOrId);
+							Users returnedUser = readUser.ConsultUserByID(id);
+							System.out.println("Os dados do usuário consultado são:\n" + returnedUser.toString());
+						} catch (Exception e) {
+							Users returnedUser = readUser.ConsultUserByName(nameOrId);
+							System.out.println("Os dados do usuário consultado são:\n" + returnedUser.toString());
 
+						}
 					}
-
 				}
 
 			}
