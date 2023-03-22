@@ -4,6 +4,7 @@ import view.Login;
 import view.Menus;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -21,7 +22,6 @@ public class ChooseMenuItem {
 
 	public ChooseMenuItem() throws IOException {
 
-		final String ESC = "\033[";
 
 //		System.out.println("1 - Gerenciar usuários");
 //		System.out.println("2 - Registrar marcação");
@@ -33,8 +33,19 @@ public class ChooseMenuItem {
 //			MANAGER,
 //			USER
 //		}
+		List<Integer> options = new ArrayList<>();
+		options.add(1);
+		options.add(2);
+		options.add(3);
+		options.add(4);
 
 		int pickedOption = Menus.mainMenu();
+
+		
+		if (!options.contains(pickedOption)) {
+			System.out.println("Opção inválida");
+			return;
+		}
 		new Login();
 		CheckUserNPsw checklogin = new CheckUserNPsw();
 		Users u = checklogin.testkUserNPsw();
@@ -147,10 +158,18 @@ public class ChooseMenuItem {
 
 							long id = Long.parseLong(nameOrId);
 							Users returnedUser = readUser.ConsultUserByID(id);
-							System.out.println("Os dados do usuário consultado são:\n" + returnedUser.toString());
+							if (returnedUser != null) {
+								CreateEntry nEntry = new CreateEntry(returnedUser, new Date());
+								System.out.println("Marcação efetuada com sucesso!");
+							} else
+								System.out.println("Usuário não encontrado");
 						} catch (Exception e) {
 							Users returnedUser = readUser.ConsultUserByName(nameOrId);
-							System.out.println("Os dados do usuário consultado são:\n" + returnedUser.toString());
+							if (returnedUser != null) {
+								CreateEntry nEntry = new CreateEntry(returnedUser, new Date());
+								System.out.println("Marcação efetuada com sucesso!");
+							} else
+								System.out.println("Usuário não encontrado");
 
 						}
 					}
@@ -164,9 +183,13 @@ public class ChooseMenuItem {
 			}
 
 		}
+		default:
+		{
+			System.out.println("Opção inválida");
+			return;
+		}
 
 		}
 
 	}
-
 }
