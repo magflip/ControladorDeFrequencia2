@@ -1,6 +1,10 @@
 package view;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -145,6 +149,62 @@ public class Menus {
 //		sc.close();
 
 		return opt;
+	}
+	
+	static public int manageRecordMenu() {
+
+		Scanner sc = new Scanner(System.in);
+
+		StringBuilder menuAttendanceRecord = new StringBuilder();
+		menuAttendanceRecord.append("Informe a opção: ");
+		menuAttendanceRecord.append("\n1 - Alterar registro");
+		menuAttendanceRecord.append("\n2 - Apagar registro");
+
+
+		System.out.println(menuAttendanceRecord);
+
+		int opt = sc.nextInt();
+
+		return opt;
+	}
+	
+	static public Date informDate() throws ParseException {
+
+		Scanner sc = new Scanner(System.in);
+
+		System.out.println("Informe a data e hora no formato yyyy-mm-dd :");
+
+		String input = sc.nextLine();
+		
+        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = parser.parse(input);
+        
+        
+		return date;
+	}
+	
+	static public int chooseRecordToChangeDelete() {
+
+		Scanner sc = new Scanner(System.in);
+
+		System.out.println("Informe o número do registro que deseja alterar/excluir: ");
+
+		int opt = sc.nextInt();
+
+//		sc.close();
+
+		return opt;
+	}
+	
+	static public String newAttendance() {
+		
+		Scanner sc = new Scanner(System.in);
+
+		System.out.println("Informe o horário do registro no formato HH:mm:ss : ");
+
+		String s = sc.nextLine();
+		
+		return s;
 	}
 
 }

@@ -7,10 +7,10 @@ import model.DAOentries;
 import model.Entry;
 import model.Users;
 
-public class CreateEntry {
+public class ConsultEntry {
 
-	public CreateEntry(Users u, Instant i) {
-		Entry e = new Entry(u, i);
+	public ConsultEntry(Users u, Instant d) {
+		Entry e = new Entry(u, d);
 		DAOentries dao = new DAOentries();
 		dao.createEntry(e);
 	}
